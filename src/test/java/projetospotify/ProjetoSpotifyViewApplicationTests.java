@@ -1,10 +1,10 @@
-package com.poo.projetospotify;
+package projetospotify;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjetoSpotifyApplicationTests {
+class ProjetoSpotifyViewApplicationTests {
 
     @Test
     void contextLoads() {
