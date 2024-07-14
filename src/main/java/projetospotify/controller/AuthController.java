@@ -1,6 +1,8 @@
 package projetospotify.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import projetospotify.model.User;
+import projetospotify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,16 +18,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Base64;
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final UserRepository userRepository;
+
+    public AuthController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Value("${spring.security.oauth2.client.registration.spotify.client-id}")
     private String clientId;
@@ -86,32 +91,28 @@ public class AuthController {
 
             if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> userInfo = userInfoResponse.getBody();
-
-                // Verifique se userInfo contém a chave 'images' e se é uma lista não vazia
-                if (userInfo != null && userInfo.containsKey("images")) {
-                    List<Map<String, String>> images = (List<Map<String, String>>) userInfo.get("images");
-                    if (images == null || images.isEmpty()) {
-                        // Adicione uma imagem padrão se a lista estiver vazia
-                        images = new ArrayList<>();
-                        Map<String, String> defaultImage = new HashMap<>();
-                        defaultImage.put("url", "http://example.com/default.jpg");
-                        images.add(defaultImage);
-                        userInfo.put("images", images);
-                    }
-                } else {
-                    // Adicione uma chave 'images' com uma imagem padrão se não existir
-                    List<Map<String, String>> images = new ArrayList<>();
-                    Map<String, String> defaultImage = new HashMap<>();
-                    defaultImage.put("url", "http://example.com/default.jpg");
-                    images.add(defaultImage);
-                    userInfo.put("images", images);
-                }
-
                 model.addAttribute("userInfo", userInfo);
 
                 try {
                     String userInfoJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
                     logger.info("User Info JSON: {}", userInfoJson);
+
+                    // Salvar informações do usuário no banco de dados
+                    User user = new User();
+                    user.setSpotifyId((String) userInfo.get("id"));
+                    user.setDisplayName((String) userInfo.get("display_name"));
+                    user.setEmail((String) userInfo.get("email"));
+                    user.setCountry((String) userInfo.get("country"));
+                    user.setFollowers((int) ((Map<String, Object>) userInfo.get("followers")).get("total"));
+
+                    // Verifique se a lista de imagens não está vazia antes de tentar acessar a URL da imagem
+                    List<Map<String, Object>> images = (List<Map<String, Object>>) userInfo.get("images");
+                    if (images != null && !images.isEmpty()) {
+                        user.setProfileImageUrl((String) images.get(0).get("url"));
+                    }
+
+                    userRepository.save(user);
+
                 } catch (Exception e) {
                     logger.error("Failed to convert user info to JSON", e);
                 }
