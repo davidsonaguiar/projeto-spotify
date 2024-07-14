@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Base64;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 public class AuthController {
@@ -83,6 +86,27 @@ public class AuthController {
 
             if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> userInfo = userInfoResponse.getBody();
+
+                // Verifique se userInfo contém a chave 'images' e se é uma lista não vazia
+                if (userInfo != null && userInfo.containsKey("images")) {
+                    List<Map<String, String>> images = (List<Map<String, String>>) userInfo.get("images");
+                    if (images == null || images.isEmpty()) {
+                        // Adicione uma imagem padrão se a lista estiver vazia
+                        images = new ArrayList<>();
+                        Map<String, String> defaultImage = new HashMap<>();
+                        defaultImage.put("url", "http://example.com/default.jpg");
+                        images.add(defaultImage);
+                        userInfo.put("images", images);
+                    }
+                } else {
+                    // Adicione uma chave 'images' com uma imagem padrão se não existir
+                    List<Map<String, String>> images = new ArrayList<>();
+                    Map<String, String> defaultImage = new HashMap<>();
+                    defaultImage.put("url", "http://example.com/default.jpg");
+                    images.add(defaultImage);
+                    userInfo.put("images", images);
+                }
+
                 model.addAttribute("userInfo", userInfo);
 
                 try {
