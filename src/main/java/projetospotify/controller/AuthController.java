@@ -131,4 +131,10 @@ public class AuthController {
         }
         return "home";
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        logger.info("User has been logged out.");
+        return "redirect:/login?logout"; // Redireciona para a página de login após o logout
+    }
 }

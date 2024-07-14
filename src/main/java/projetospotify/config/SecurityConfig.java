@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,10 +26,12 @@ public class SecurityConfig {
                 )
                 .logout(logout ->
                         logout
-                                .logoutSuccessUrl("/login") // URL de logout
-                                .permitAll()
+                                .logoutSuccessUrl("/login")
+                                .invalidateHttpSession(true)
+                                .clearAuthentication(true)
+                                .deleteCookies("JSESSIONID")
                 )
-                .csrf(csrf -> csrf.disable()); // Desabilitar CSRF para simplificação, em ambiente de produção deve ser configurado corretamente
+                .csrf(AbstractHttpConfigurer::disable); // Desabilitar CSRF para simplificação, em ambiente de produção deve ser configurado corretamente
 
         return http.build();
     }
