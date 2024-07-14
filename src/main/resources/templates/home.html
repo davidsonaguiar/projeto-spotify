@@ -12,7 +12,11 @@
     <li>Email: <span th:text="${userInfo['email']}">email@example.com</span></li>
     <li>Country: <span th:text="${userInfo['country']}">Country</span></li>
     <li>Followers: <span th:text="${userInfo['followers']['total']}">0</span></li>
-    <li>Profile Picture: <img th:src="${userInfo['images'][0]['url']}" alt="Profile Picture" /></li>
+    <!-- Verifica se userInfo não é nulo e contém a chave 'images' -->
+    <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
+         th:with="imageUrl=${userInfo['images'][0]['url']}">
+        <li>Profile Picture: <img th:src="${imageUrl}" alt="Profile Picture" /></li>
+    </div>
 </ul>
 <a href="/logout">Logout</a>
 </body>
