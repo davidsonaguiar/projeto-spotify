@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Playlists</title>
+</head>
+<body>
+<h1>User Playlists</h1>
+<div th:if="${playlists != null}">
+    <ul>
+        <li th:each="playlist : ${playlists.items}">
+            <a th:href="@{/playlists/{id}(id=${playlist.id})}">
+                <div th:if="${playlist.images != null && !#lists.isEmpty(playlist.images)}">
+                    <img th:src="${playlist.images[0].url}" alt="Playlist Image" width="100">
+                </div>
+                <span th:text="${playlist.name}"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<a href="/profile">Go to Profile</a>
+<a href="/logout">Logout</a>
+</body>
+</html>

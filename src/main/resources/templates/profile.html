@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+<h1>User Profile</h1>
+<div th:if="${profile != null}">
+    <div th:if="${profile.images != null && !#lists.isEmpty(profile.images)}">
+        <img th:src="${profile.images[0].url}" alt="Profile Image" width="150">
+    </div>
+    <p>Name: <span th:text="${profile.display_name}"></span></p>
+    <p>Email: <span th:text="${profile.email}"></span></p>
+    <p>Country: <span th:text="${profile.country}"></span></p>
+    <p>Followers: <span th:text="${profile.followers.total}"></span></p>
+</div>
+
+<h2>Top Artists</h2>
+<div th:if="${topArtists != null}">
+    <ul>
+        <li th:each="artist : ${topArtists.items}">
+            <div th:if="${artist.images != null && !#lists.isEmpty(artist.images)}">
+                <img th:src="${artist.images[0].url}" alt="Artist Image" width="100">
+            </div>
+            <span th:text="${artist.name}"></span>
+        </li>
+    </ul>
+</div>
+
+<a href="/playlists">Go to Playlists</a>
+<a href="/logout">Logout</a>
+</body>
+</html>

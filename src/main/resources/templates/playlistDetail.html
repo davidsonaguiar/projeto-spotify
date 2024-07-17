@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Playlist Detail</title>
+</head>
+<body>
+<h1>Playlist Detail</h1>
+<div th:if="${playlist != null}">
+    <div th:if="${playlist.images != null && !#lists.isEmpty(playlist.images)}">
+        <img th:src="${playlist.images[0].url}" alt="Playlist Image" width="150">
+    </div>
+    <p>Name: <span th:text="${playlist.name}"></span></p>
+    <p>Description: <span th:text="${playlist.description}"></span></p>
+    <p>Owner: <span th:text="${playlist.owner.display_name}"></span></p>
+    <p>Tracks: <span th:text="${playlist.tracks.total}"></span></p>
+</div>
+
+<a href="/playlists">Back to Playlists</a>
+<a href="/logout">Logout</a>
+</body>
+</html>
