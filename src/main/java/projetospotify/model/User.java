@@ -13,8 +13,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String spotifyId;
     private String displayName;
+    @Column(unique = true)
     private String email;
     private String country;
     private int followers;
