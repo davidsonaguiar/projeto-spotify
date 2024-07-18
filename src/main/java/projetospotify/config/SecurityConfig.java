@@ -4,8 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -16,23 +17,29 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login", "/callback").permitAll() // Permite acesso sem autenticação
-                                .anyRequest().authenticated() // Outras requisições exigem autenticação
+                                .requestMatchers("/", "/index", "/login", "/callback").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
                         oauth2Login
-                                .loginPage("/login")  // Página de login personalizada
-                                .defaultSuccessUrl("/home", true)
+                                .loginPage("/login")
                 )
                 .logout(logout ->
-                        logout
-                                .logoutSuccessUrl("/login")
-                                .invalidateHttpSession(true)
-                                .clearAuthentication(true)
-                                .deleteCookies("JSESSIONID")
+                        logout.logoutSuccessUrl("/login?logout")
                 )
-                .csrf(AbstractHttpConfigurer::disable); // Desabilitar CSRF para simplificação, em ambiente de produção deve ser configurado corretamente
+                .sessionManagement(sessionManagement ->
+                        sessionManagement
+                                .sessionFixation(sessionFixation -> sessionFixation.migrateSession())
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(true)
+                )
+                .csrf(AbstractHttpConfigurer::disable); // Desativar CSRF para testes
 
         return http.build();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 }

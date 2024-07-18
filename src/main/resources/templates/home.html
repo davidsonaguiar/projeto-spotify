@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<h1>Welcome!</h1>
+<p>Here is your profile information from Spotify:</p>
+<ul>
+    <li>ID: <span th:text="${userInfo['id']}">User ID</span></li>
+    <li>Name: <span th:text="${userInfo['display_name']}">User Name</span></li>
+    <li>Email: <span th:text="${userInfo['email']}">email@example.com</span></li>
+    <li>Country: <span th:text="${userInfo['country']}">Country</span></li>
+    <li>Followers: <span th:text="${userInfo['followers']['total']}">0</span></li>
+    <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
+         th:with="imageUrl=${userInfo['images'][0]['url']}">
+        <li>Profile Picture: <img th:src="${imageUrl}" alt="Profile Picture" /></li>
+    </div>
+</ul>
+
+<h2>Your Playlists</h2>
+<ul>
+    <li th:each="playlist : ${playlists}">
+        <a th:href="@{/playlist(id=${playlist['id']})}" th:text="${playlist['name']}">Playlist Name</a>
+    </li>
+</ul>
+
+<h2>Your Saved Tracks</h2>
+<ul>
+    <li th:each="track : ${savedTracks}">
+        <span th:text="${track['track']['name']}">Track Name</span> by <span th:text="${track['track']['artists'][0]['name']}">Artist Name</span>
+    </li>
+</ul>
+
+<a href="/logout">Logout</a>
+</body>
+</html>

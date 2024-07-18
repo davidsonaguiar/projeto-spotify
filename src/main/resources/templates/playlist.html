@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Playlist</title>
+</head>
+<body>
+<h1 th:text="${playlist['name']}">Playlist Name</h1>
+<p th:text="${playlist['description']}">Playlist Description</p>
+<p>Total Tracks: <span th:text="${playlist['tracks']['total']}">0</span></p>
+
+<ul>
+    <li th:each="track : ${playlist['tracks']['items']}">
+        <span th:text="${track['track']['name']}">Track Name</span> by <span th:text="${track['track']['artists'][0]['name']}">Artist Name</span>
+    </li>
+</ul>
+
+<a href="/home">Back to Home</a>
+</body>
+</html>

@@ -1,12 +1,19 @@
 package projetospotify.controller;
 
+<<<<<<< Updated upstream
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+=======
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+>>>>>>> Stashed changes
 import projetospotify.model.User;
 import projetospotify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +58,12 @@ public class AuthController {
     public String callback(@RequestParam("code") String code, @RequestParam("state") String state, Model model) {
         logger.info("Received callback with code: {} and state: {}", code, state);
 
+<<<<<<< Updated upstream
         // Exchange the authorization code for an access token
+=======
+        // Código existente para obter o token de acesso
+        RestTemplate restTemplate = new RestTemplate();
+>>>>>>> Stashed changes
         String url = "https://accounts.spotify.com/api/token";
 
         String credentials = clientId + ":" + clientSecret;
@@ -67,25 +79,33 @@ public class AuthController {
         params.add("grant_type", "authorization_code");
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            Map<String, Object> responseBody = response.getBody();
-            String accessToken = (String) responseBody.get("access_token");
-            String refreshToken = (String) responseBody.get("refresh_token");
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
 
+<<<<<<< Updated upstream
             // Use the access token to access the Spotify Web API
             String userInfoUrl = "https://api.spotify.com/v1/me";
             HttpHeaders userInfoHeaders = new HttpHeaders();
             userInfoHeaders.set("Authorization", "Bearer " + accessToken);
+=======
+            if (response.getStatusCode() == HttpStatus.OK) {
+                Map<String, Object> responseBody = response.getBody();
+                String accessToken = (String) responseBody.get("access_token");
+                String refreshToken = (String) responseBody.get("refresh_token");
 
-            HttpEntity<String> userInfoRequest = new HttpEntity<>(userInfoHeaders);
-            ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, userInfoRequest, Map.class);
+                logger.info("Access Token: {}", accessToken);
+                logger.info("Refresh Token: {}", refreshToken);
+>>>>>>> Stashed changes
 
-            if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
-                Map<String, Object> userInfo = userInfoResponse.getBody();
-                model.addAttribute("userInfo", userInfo);
+                // Use the access token to access the Spotify Web API
+                String userInfoUrl = "https://api.spotify.com/v1/me";
+                headers.set("Authorization", "Bearer " + accessToken);
 
+                HttpEntity<String> entity = new HttpEntity<>(headers);
+                ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, entity, Map.class);
+
+<<<<<<< Updated upstream
                 // Save user info in the database
                 User user = new User();
                 user.setSpotifyId((String) userInfo.get("id"));
@@ -101,9 +121,48 @@ public class AuthController {
                 }
 
                 userRepository.save(user);
+=======
+                if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
+                    Map<String, Object> userInfo = userInfoResponse.getBody();
+                    model.addAttribute("userInfo", userInfo);
+
+                    // Fetch user playlists
+                    String playlistsUrl = "https://api.spotify.com/v1/me/playlists?limit=5";
+                    ResponseEntity<Map> playlistsResponse = restTemplate.exchange(playlistsUrl, HttpMethod.GET, entity, Map.class);
+                    if (playlistsResponse.getStatusCode() == HttpStatus.OK) {
+                        model.addAttribute("playlists", playlistsResponse.getBody().get("items"));
+                    }
+
+                    // Fetch user's saved tracks
+                    String savedTracksUrl = "https://api.spotify.com/v1/me/tracks?limit=5";
+                    ResponseEntity<Map> savedTracksResponse = restTemplate.exchange(savedTracksUrl, HttpMethod.GET, entity, Map.class);
+                    if (savedTracksResponse.getStatusCode() == HttpStatus.OK) {
+                        model.addAttribute("savedTracks", savedTracksResponse.getBody().get("items"));
+                    }
+
+                    // Save user info to database
+                    User user = new User();
+                    user.setSpotifyId((String) userInfo.get("id"));
+                    user.setDisplayName((String) userInfo.get("display_name"));
+                    user.setEmail((String) userInfo.get("email"));
+                    user.setCountry((String) userInfo.get("country"));
+                    user.setFollowers((int) ((Map<String, Object>) userInfo.get("followers")).get("total"));
+
+                    List<Map<String, Object>> images = (List<Map<String, Object>>) userInfo.get("images");
+                    if (images != null && !images.isEmpty()) {
+                        user.setProfileImageUrl((String) images.get(0).get("url"));
+                    }
+
+                    userRepository.save(user);
+                } else {
+                    logger.error("Failed to fetch user info: {}", userInfoResponse.getBody());
+                }
+            } else {
+                logger.error("Failed to retrieve access token: {}", response.getBody());
+>>>>>>> Stashed changes
             }
-        } else {
-            logger.error("Failed to retrieve access token: {}", response.getBody());
+        } catch (HttpClientErrorException e) {
+            logger.error("HttpClientErrorException: {}", e.getMessage());
         }
 
         return "redirect:/profile";
