@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    font-family: 'Reem Kufi Ink';
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    background-color: #000320;
+    color: #fff;
+    width: 22vw;
+    padding: 2rem 2.1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.logo {
+    margin-bottom: 20px;
+    font-size: 59px;
+    font-weight: 700;
+    letter-spacing: -0.1em;
+}
+
+.logo .logo-accent {
+    color: #00c1ff;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #000320;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.sidebar ul li:active,
+.sidebar ul li:hover {
+    background: #13152C;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.pagina-perfil{
+    width: 78%;
+    background-color: #000320;
+}
+
+.content {
+    border-radius: 40px 0px 0px 0px;
+    background: conic-gradient(from 164.75deg at -24.86% 41.06%, #000724 0deg, #00798F 16.16deg, #005870 173.21deg, #00546C 182.74deg, #00526B 198.65deg, #004962 221.05deg, #002540 249.92deg, #00213C 257.17deg, #001B36 265.49deg, #001733 279.88deg, #001430 294deg, #000F2C 306.14deg, #000C29 313.59deg, #000A27 326.86deg, #000925 337.38deg, #000320 354.32deg, #000724 360deg);
+    color: #fff;
+    padding: 30px 90px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.nome{
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 45px;
+    text-align: center;
+}
+.card-perfil {
+    align-self: center;
+    text-align: center;
+    padding: 0px;
+    border-radius: 10px;
+    width: 338px;
+}
+
+.foto-perfil {
+    width: 200px;
+    height: 200px;
+    top: 140px;
+    left: 745px;
+    gap: 0px;
+    border: solid 4px #fff;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.status {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+.item-status{
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.info-contato {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.email, .pais {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.icon-email {
+    margin-right: 10px;
+}
+
+.icon-pais {
+    border-radius: 6px;
+    width: 60px;
+    height: 44px;
+    margin-right: 9px;
+}
