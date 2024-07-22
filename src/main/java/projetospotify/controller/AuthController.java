@@ -1,15 +1,10 @@
 package projetospotify.controller;
 
-<<<<<<< Updated upstream
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-=======
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
->>>>>>> Stashed changes
 import projetospotify.model.User;
 import projetospotify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,12 +53,7 @@ public class AuthController {
     public String callback(@RequestParam("code") String code, @RequestParam("state") String state, Model model) {
         logger.info("Received callback with code: {} and state: {}", code, state);
 
-<<<<<<< Updated upstream
-        // Exchange the authorization code for an access token
-=======
-        // Código existente para obter o token de acesso
         RestTemplate restTemplate = new RestTemplate();
->>>>>>> Stashed changes
         String url = "https://accounts.spotify.com/api/token";
 
         String credentials = clientId + ":" + clientSecret;
@@ -91,8 +81,7 @@ public class AuthController {
 
                 logger.info("Access Token: {}", accessToken);
                 logger.info("Refresh Token: {}", refreshToken);
->>>>>>> Stashed changes
-
+                
                 // Use the access token to access the Spotify Web API
                 String userInfoUrl = "https://api.spotify.com/v1/me";
                 headers.set("Authorization", "Bearer " + accessToken);
@@ -137,7 +126,6 @@ public class AuthController {
                 }
             } else {
                 logger.error("Failed to retrieve access token: {}", response.getBody());
->>>>>>> Stashed changes
             }
         } catch (HttpClientErrorException e) {
             logger.error("HttpClientErrorException: {}", e.getMessage());
