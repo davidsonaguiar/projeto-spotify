@@ -16,6 +16,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers("/login", "/callback").permitAll() // Permite acesso sem autenticação
                                 .anyRequest().authenticated() // Outras requisições exigem autenticação
                 )
