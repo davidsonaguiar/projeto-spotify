@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Login ->
                         oauth2Login
                                 .loginPage("/login")
+                                .defaultSuccessUrl("/home", true)
                 )
                 .logout(logout ->
                         logout.logoutSuccessUrl("/login?logout")
