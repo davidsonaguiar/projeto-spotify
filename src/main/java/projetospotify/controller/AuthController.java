@@ -83,12 +83,7 @@ public class AuthController {
         try {
             ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
 
-<<<<<<< Updated upstream
-            // Use the access token to access the Spotify Web API
-            String userInfoUrl = "https://api.spotify.com/v1/me";
-            HttpHeaders userInfoHeaders = new HttpHeaders();
-            userInfoHeaders.set("Authorization", "Bearer " + accessToken);
-=======
+
             if (response.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> responseBody = response.getBody();
                 String accessToken = (String) responseBody.get("access_token");
@@ -105,23 +100,6 @@ public class AuthController {
                 HttpEntity<String> entity = new HttpEntity<>(headers);
                 ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, entity, Map.class);
 
-<<<<<<< Updated upstream
-                // Save user info in the database
-                User user = new User();
-                user.setSpotifyId((String) userInfo.get("id"));
-                user.setDisplayName((String) userInfo.get("display_name"));
-                user.setEmail((String) userInfo.get("email"));
-                user.setCountry((String) userInfo.get("country"));
-                user.setFollowers((int) ((Map<String, Object>) userInfo.get("followers")).get("total"));
-
-                // Verifique se a lista de imagens não está vazia antes de tentar acessar a URL da imagem
-                List<Map<String, Object>> images = (List<Map<String, Object>>) userInfo.get("images");
-                if (images != null && !images.isEmpty()) {
-                    user.setProfileImageUrl((String) images.get(0).get("url"));
-                }
-
-                userRepository.save(user);
-=======
                 if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
                     Map<String, Object> userInfo = userInfoResponse.getBody();
                     model.addAttribute("userInfo", userInfo);
