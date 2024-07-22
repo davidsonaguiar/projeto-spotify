@@ -39,27 +39,48 @@
     </nav>
     <main class="pagina-perfil">
         <section class="content">
+            <a href="/logout" class="btn-sair">
+                <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve"><g><path d="M21,48.5v-3c0-0.8-0.7-1.5-1.5-1.5h-10C8.7,44,8,43.3,8,42.5v-33C8,8.7,8.7,8,9.5,8h10C20.3,8,21,7.3,21,6.5v-3C21,2.7,20.3,2,19.5,2H6C3.8,2,2,3.8,2,6v40c0,2.2,1.8,4,4,4h13.5C20.3,50,21,49.3,21,48.5z"/><path d="M49.6,27c0.6-0.6,0.6-1.5,0-2.1L36.1,11.4c-0.6-0.6-1.5-0.6-2.1,0l-2.1,2.1c-0.6,0.6-0.6,1.5,0,2.1l5.6,5.6c0.6,0.6,0.2,1.7-0.7,1.7H15.5c-0.8,0-1.5,0.6-1.5,1.4v3c0,0.8,0.7,1.6,1.5,1.6h21.2c0.9,0,1.3,1.1,0.7,1.7l-5.6,5.6c-0.6,0.6-0.6,1.5,0,2.1l2.1,2.1c0.6,0.6,1.5,0.6,2.1,0L49.6,27z"/></g></svg>
+                Sair
+            </a>
+
             <h1>Perfil</h1>
             <div class="card-perfil">
-                <img src="/images/foto-perfil.jpg" alt="Foto de Perfil" class="foto-perfil">
-                <h2 class="nome">Ian Torrez</h2>
+                <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
+                     th:with="imageUrl=${userInfo['images'][0]['url']}">
+                    <img th:src="${imageUrl}" class="foto-perfil" alt="Foto de perfil" />
+                </div>
+
+                <h2 class="nome"><span th:text="${userInfo['display_name']}">User Name</span></h2>
                 <div class="status">
-                    <div class="item-status">100 Seguidores</div>
-                    <div class="item-status">20 Seguindo</div>
-                    <div class="item-status">15 Playlists</div>
+                    <div class="item-status">
+                        <span th:text="${userInfo['followers']['total']}">0</span>
+                        Seguidores
+                    </div>
+                    <div class="item-status">
+                        <!-- <span th:text="${userInfo['following']['total']}">0</span> -->
+                        Seguindo
+                    </div>
+                    <div class="item-status">
+                        <!-- <span th:text="${userInfo['playlists']['total']}">0</span> -->
+                        Playlists
+                    </div>
                 </div>
                 <div class="info-contato">
                     <div class="email">
                         <i class="icon">
                             <svg width="60" height="44" viewBox="0 0 60 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M57 0H3C1.34315 0 0 1.34315 0 3V41C0 42.6569 1.34315 44 3 44H57C58.6569 44 60 42.6569 60 41V3C60 1.34315 58.6569 0 57 0Z" fill="#B4ACBC"/><path d="M58 36.8001L32.058 21.2361C31.4363 20.863 30.725 20.666 30 20.666C29.275 20.666 28.5637 20.863 27.942 21.2361L2 36.8001V40.0001C2 40.5305 2.21071 41.0392 2.58579 41.4143C2.96086 41.7893 3.46957 42.0001 4 42.0001H56C56.5304 42.0001 57.0391 41.7893 57.4142 41.4143C57.7893 41.0392 58 40.5305 58 40.0001V36.8001Z" fill="#E1D8EC"/><path d="M2 7.2V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H56C56.5304 2 57.0391 2.21071 57.4142 2.58579C57.7893 2.96086 58 3.46957 58 4V7.2L32.058 22.766C31.4363 23.139 30.725 23.336 30 23.336C29.275 23.336 28.5637 23.139 27.942 22.766L2 7.2Z" fill="#F3EEF8"/><path d="M30 36C33.713 36 37.274 34.525 39.8995 31.8995C42.525 29.274 44 25.713 44 22C44 18.287 42.525 14.726 39.8995 12.1005C37.274 9.475 33.713 8 30 8C26.287 8 22.726 9.475 20.1005 12.1005C17.475 14.726 16 18.287 16 22C16 25.713 17.475 29.274 20.1005 31.8995C22.726 34.525 26.287 36 30 36Z" fill="#00A6ED"/><path d="M30 13C27.58 12.96 25.28 13.88 23.56 15.6C21.82 17.3 20.88 19.58 20.88 22C20.88 26.96 24.92 31 29.88 31C30.1293 31 30.3684 30.901 30.5447 30.7247C30.721 30.5484 30.82 30.3093 30.82 30.06C30.82 29.8107 30.721 29.5716 30.5447 29.3954C30.3684 29.2191 30.1293 29.12 29.88 29.12C25.96 29.12 22.76 25.92 22.76 22C22.76 20.08 23.52 18.28 24.88 16.94C26.24 15.6 28.06 14.88 29.98 14.88C33.84 14.94 37 18.18 37 22.12V23.74C37 24.0954 36.8588 24.4363 36.6075 24.6876C36.3562 24.9389 36.0154 25.08 35.66 25.08C35.3046 25.08 34.9638 24.9389 34.7125 24.6876C34.4612 24.4363 34.32 24.0954 34.32 23.74V17.58C34.32 17.3307 34.221 17.0916 34.0447 16.9154C33.8684 16.7391 33.6293 16.64 33.38 16.64C32.86 16.64 32.4 17.06 32.4 17.58V17.76C31.52 17.06 30.42 16.62 29.2 16.62C26.4 16.62 24.12 18.9 24.12 21.7C24.12 24.5 26.4 26.78 29.2 26.78C30.6 26.78 31.88 26.2 32.8 25.28C33.36 26.28 34.42 26.96 35.64 26.96C37.42 26.96 38.88 25.5 38.88 23.72V22.1C38.88 17.16 34.9 13.06 30 13ZM29.22 24.92C27.46 24.92 26.02 23.48 26.02 21.72C26.02 19.96 27.46 18.52 29.22 18.52C30.98 18.52 32.42 19.96 32.42 21.72C32.42 23.48 30.98 24.92 29.22 24.92Z" fill="#F4F4F4"/></svg>
-                        </i> ijtg1@aluno.ifal.edu.br
+                        </i>
+                        <span th:text="${userInfo['email']}">email@example.com</span>
                     </div>
-                    <div class="pais"><img src="/images/brasil.png" class="icon-pais"> Brasil</div>
+                    <div class="pais">
+                        <img src="/images/brasil.png" class="icon-pais">
+                        <span th:text="${userInfo['country']}">Country</span>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
-</div>
-<a href="/logout">Logout</a>
-</body>
-</html>
+                </div>
+            </section>
+        </main>
+    </div>
+    </body>
+    </html>
