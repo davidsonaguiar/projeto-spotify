@@ -1,23 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - TuneFy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-<h1>Welcome!</h1>
-<p>Here is your profile information from Spotify:</p>
-<ul>
-    <li>ID: <span th:text="${userInfo['id']}">User ID</span></li>
-    <li>Name: <span th:text="${userInfo['display_name']}">User Name</span></li>
-    <li>Email: <span th:text="${userInfo['email']}">email@example.com</span></li>
-    <li>Country: <span th:text="${userInfo['country']}">Country</span></li>
-    <li>Followers: <span th:text="${userInfo['followers']['total']}">0</span></li>
-    <!-- Verifica se userInfo não é nulo e contém a chave 'images' -->
-    <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
-         th:with="imageUrl=${userInfo['images'][0]['url']}">
-        <li>Profile Picture: <img th:src="${imageUrl}" alt="Profile Picture" /></li>
+<div class="container">
+    <nav class="sidebar">
+        <div class="logo">
+            <span>Tune</span><span class="logo-accent">Fy</span>
+        </div>
+        <ul>
+            <li>
+                <!-- <img src="/resources/icons/icon-perfil.svg" alt="icone do perfil do usuario"> TENTATIVA -->
+                <i class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 20.25C1 18.7913 1.57946 17.3924 2.61091 16.3609C3.64236 15.3295 5.04131 14.75 6.5 14.75H17.5C18.9587 14.75 20.3576 15.3295 21.3891 16.3609C22.4205 17.3924 23 18.7913 23 20.25C23 20.9793 22.7103 21.6788 22.1945 22.1945C21.6788 22.7103 20.9793 23 20.25 23H3.75C3.02065 23 2.32118 22.7103 1.80546 22.1945C1.28973 21.6788 1 20.9793 1 20.25Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M12 9.25C14.2782 9.25 16.125 7.40317 16.125 5.125C16.125 2.84683 14.2782 1 12 1C9.72183 1 7.875 2.84683 7.875 5.125C7.875 7.40317 9.72183 9.25 12 9.25Z" stroke="white" stroke-width="2"/></svg>
+                </i> Perfil
+            </li>
+            <li>
+                <i class="icon">
+                    <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.69995 8.7L10.9 10.9L15.3 6.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 16.4H1M4.3 3.2C4.3 1.99 5.29 1 6.5 1H17.5C18.0835 1 18.6431 1.23178 19.0556 1.64436C19.4682 2.05695 19.7 2.61652 19.7 3.2V16.4H4.3V3.2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </i> Avaliando Músicas
+            </li>
+            <li>
+                <i class="icon">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 20.4294V14.1437H12.5714V20.4294H20.4286V6.28653H22V20.4294C22 20.8462 21.8344 21.2459 21.5397 21.5406C21.245 21.8353 20.8453 22.0008 20.4286 22.0008H1.57143C1.15466 22.0008 0.754961 21.8353 0.460261 21.5406C0.165561 21.2459 0 20.8462 0 20.4294V17.2865H1.57143V20.4294H11ZM18.6261 4.48568L13.9134 9.19996C14.1655 9.7247 14.2145 10.3242 14.051 10.8829C13.8874 11.4416 13.5229 11.92 13.0276 12.226C12.5324 12.5319 11.9414 12.6438 11.3686 12.5401C10.7958 12.4363 10.2816 12.1242 9.92514 11.664L5.66029 13.0845L4.71429 13.4004C4.70437 13.9564 4.4982 14.491 4.13222 14.9097C3.76624 15.3284 3.26401 15.6042 2.71433 15.6883C2.16465 15.7725 1.6029 15.6596 1.1284 15.3697C0.653893 15.0797 0.297187 14.6313 0.121336 14.1038C-0.054516 13.5762 -0.038188 13.0035 0.167433 12.4868C0.373054 11.9701 0.754726 11.5428 1.24498 11.2803C1.73523 11.0178 2.3025 10.9371 2.84649 11.0525C3.39049 11.1679 3.87618 11.4718 4.21771 11.9107L9.42857 10.1727C9.43558 9.77814 9.54153 9.39167 9.7367 9.04871C9.93188 8.70575 10.21 8.41728 10.5456 8.20975C10.8813 8.00221 11.2636 7.88226 11.6576 7.86088C12.0517 7.8395 12.4448 7.91739 12.8009 8.08739L17.5151 3.3731C17.2755 2.87135 17.2209 2.30103 17.3611 1.76294C17.5013 1.22485 17.8271 0.753632 18.2812 0.432584C18.7352 0.111536 19.288 -0.0386747 19.8421 0.00850274C20.3961 0.0556802 20.9157 0.297207 21.3089 0.690395C21.702 1.08358 21.9436 1.60311 21.9907 2.15716C22.0379 2.7112 21.8877 3.26409 21.5667 3.7181C21.2456 4.1721 20.7744 4.49799 20.2363 4.63816C19.6982 4.77834 19.1279 4.72377 18.6261 4.4841" fill="white"/></svg>
+                </i> Minhas Estatísticas</li>
+            <li>
+                <i class="icon">
+                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8.01063H4.70615C4.8622 8.00884 5.01497 7.96558 5.14879 7.88528C5.28261 7.80499 5.39267 7.69055 5.46769 7.55371L8.51385 1.4614C8.58892 1.30972 8.70861 1.18464 8.85684 1.10296C9.00507 1.02128 9.17475 0.986915 9.34308 1.00448C9.51074 1.01581 9.67076 1.07886 9.80109 1.18494C9.93142 1.29102 10.0256 1.43491 10.0708 1.59678L13.8446 14.1537C13.8941 14.324 13.9959 14.4745 14.1356 14.5838C14.2753 14.6931 14.4458 14.7558 14.6231 14.7629C14.7892 14.7574 14.95 14.7031 15.0854 14.6068C15.2208 14.5105 15.3249 14.3765 15.3846 14.2214L17.7031 8.55217C17.7669 8.39314 17.8766 8.25671 18.0183 8.16027C18.1599 8.06383 18.3271 8.01174 18.4985 8.01063H23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </i> Estatísticas da playlist
+            </li>
+        </ul>
+    </nav>
+    <main class="pagina-perfil">
+        <section class="content">
+            <a href="/logout" class="btn-sair">
+                <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve"><g><path d="M21,48.5v-3c0-0.8-0.7-1.5-1.5-1.5h-10C8.7,44,8,43.3,8,42.5v-33C8,8.7,8.7,8,9.5,8h10C20.3,8,21,7.3,21,6.5v-3C21,2.7,20.3,2,19.5,2H6C3.8,2,2,3.8,2,6v40c0,2.2,1.8,4,4,4h13.5C20.3,50,21,49.3,21,48.5z"/><path d="M49.6,27c0.6-0.6,0.6-1.5,0-2.1L36.1,11.4c-0.6-0.6-1.5-0.6-2.1,0l-2.1,2.1c-0.6,0.6-0.6,1.5,0,2.1l5.6,5.6c0.6,0.6,0.2,1.7-0.7,1.7H15.5c-0.8,0-1.5,0.6-1.5,1.4v3c0,0.8,0.7,1.6,1.5,1.6h21.2c0.9,0,1.3,1.1,0.7,1.7l-5.6,5.6c-0.6,0.6-0.6,1.5,0,2.1l2.1,2.1c0.6,0.6,1.5,0.6,2.1,0L49.6,27z"/></g></svg>
+                Sair
+            </a>
+
+            <h1>Perfil</h1>
+            <div class="card-perfil">
+                <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
+                     th:with="imageUrl=${userInfo['images'][0]['url']}">
+                    <img th:src="${imageUrl}" class="foto-perfil" alt="Foto de perfil" />
+                </div>
+
+                <h2 class="nome"><span th:text="${userInfo['display_name']}">User Name</span></h2>
+                <div class="status">
+                    <div class="item-status">
+                        <span th:text="${userInfo['followers']['total']}">0</span>
+                        Seguidores
+                    </div>
+                    <div class="item-status">
+                        <!-- <span th:text="${userInfo['following']['total']}">0</span> -->
+                        Seguindo
+                    </div>
+                    <div class="item-status">
+                        <!-- <span th:text="${userInfo['playlists']['total']}">0</span> -->
+                        Playlists
+                    </div>
+                </div>
+                <div class="info-contato">
+                    <div class="email">
+                        <i class="icon">
+                            <svg width="60" height="44" viewBox="0 0 60 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M57 0H3C1.34315 0 0 1.34315 0 3V41C0 42.6569 1.34315 44 3 44H57C58.6569 44 60 42.6569 60 41V3C60 1.34315 58.6569 0 57 0Z" fill="#B4ACBC"/><path d="M58 36.8001L32.058 21.2361C31.4363 20.863 30.725 20.666 30 20.666C29.275 20.666 28.5637 20.863 27.942 21.2361L2 36.8001V40.0001C2 40.5305 2.21071 41.0392 2.58579 41.4143C2.96086 41.7893 3.46957 42.0001 4 42.0001H56C56.5304 42.0001 57.0391 41.7893 57.4142 41.4143C57.7893 41.0392 58 40.5305 58 40.0001V36.8001Z" fill="#E1D8EC"/><path d="M2 7.2V4C2 3.46957 2.21071 2.96086 2.58579 2.58579C2.96086 2.21071 3.46957 2 4 2H56C56.5304 2 57.0391 2.21071 57.4142 2.58579C57.7893 2.96086 58 3.46957 58 4V7.2L32.058 22.766C31.4363 23.139 30.725 23.336 30 23.336C29.275 23.336 28.5637 23.139 27.942 22.766L2 7.2Z" fill="#F3EEF8"/><path d="M30 36C33.713 36 37.274 34.525 39.8995 31.8995C42.525 29.274 44 25.713 44 22C44 18.287 42.525 14.726 39.8995 12.1005C37.274 9.475 33.713 8 30 8C26.287 8 22.726 9.475 20.1005 12.1005C17.475 14.726 16 18.287 16 22C16 25.713 17.475 29.274 20.1005 31.8995C22.726 34.525 26.287 36 30 36Z" fill="#00A6ED"/><path d="M30 13C27.58 12.96 25.28 13.88 23.56 15.6C21.82 17.3 20.88 19.58 20.88 22C20.88 26.96 24.92 31 29.88 31C30.1293 31 30.3684 30.901 30.5447 30.7247C30.721 30.5484 30.82 30.3093 30.82 30.06C30.82 29.8107 30.721 29.5716 30.5447 29.3954C30.3684 29.2191 30.1293 29.12 29.88 29.12C25.96 29.12 22.76 25.92 22.76 22C22.76 20.08 23.52 18.28 24.88 16.94C26.24 15.6 28.06 14.88 29.98 14.88C33.84 14.94 37 18.18 37 22.12V23.74C37 24.0954 36.8588 24.4363 36.6075 24.6876C36.3562 24.9389 36.0154 25.08 35.66 25.08C35.3046 25.08 34.9638 24.9389 34.7125 24.6876C34.4612 24.4363 34.32 24.0954 34.32 23.74V17.58C34.32 17.3307 34.221 17.0916 34.0447 16.9154C33.8684 16.7391 33.6293 16.64 33.38 16.64C32.86 16.64 32.4 17.06 32.4 17.58V17.76C31.52 17.06 30.42 16.62 29.2 16.62C26.4 16.62 24.12 18.9 24.12 21.7C24.12 24.5 26.4 26.78 29.2 26.78C30.6 26.78 31.88 26.2 32.8 25.28C33.36 26.28 34.42 26.96 35.64 26.96C37.42 26.96 38.88 25.5 38.88 23.72V22.1C38.88 17.16 34.9 13.06 30 13ZM29.22 24.92C27.46 24.92 26.02 23.48 26.02 21.72C26.02 19.96 27.46 18.52 29.22 18.52C30.98 18.52 32.42 19.96 32.42 21.72C32.42 23.48 30.98 24.92 29.22 24.92Z" fill="#F4F4F4"/></svg>
+                        </i>
+                        <span th:text="${userInfo['email']}">email@example.com</span>
+                    </div>
+                    <div class="pais">
+                        <img src="/images/brasil.png" class="icon-pais">
+                        <span th:text="${userInfo['country']}">Country</span>
+                    </div>
+                </div>
+                </div>
+            </section>
+        </main>
     </div>
-</ul>
-<a href="/logout">Logout</a>
-</body>
-</html>
+    </body>
+    </html>

@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html lang="pt-br">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuneFy</title>
+
+    <!-- Login CSS -->
+    <link href="/css/login.css" type="text/css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Login Page</h1>
-<a href="/oauth2/authorization/spotify">Login with Spotify</a>
+<main>
+    <div class="container-header">
+        <nav class="nav-top">
+            <ul>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+        <section class="sec-titulo">
+            <h1 class="texto-principal">Tune<span>Fy</span></h1>
+        </section>
+    </div>
+
+    <section class="container-body">
+        <p>Transforma dados musicais do Spotify em relatórios intuitivos, revelando insights sobre suas músicas e playlists favoritas.</p>
+        <a href="/oauth2/authorization/spotify">Iniciar Sessão</a>
+    </section>
+</main>
+<footer>
+    <p class="texto-footer">© 2024 TuneFy. Todos os direitos reservados.</p>
+</footer>
 </body>
 </html>
