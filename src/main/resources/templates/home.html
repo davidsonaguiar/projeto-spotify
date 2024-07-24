@@ -15,7 +15,6 @@
         </div>
         <ul>
             <li>
-                <!-- <img src="/resources/icons/icon-perfil.svg" alt="icone do perfil do usuario"> TENTATIVA -->
                 <i class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 20.25C1 18.7913 1.57946 17.3924 2.61091 16.3609C3.64236 15.3295 5.04131 14.75 6.5 14.75H17.5C18.9587 14.75 20.3576 15.3295 21.3891 16.3609C22.4205 17.3924 23 18.7913 23 20.25C23 20.9793 22.7103 21.6788 22.1945 22.1945C21.6788 22.7103 20.9793 23 20.25 23H3.75C3.02065 23 2.32118 22.7103 1.80546 22.1945C1.28973 21.6788 1 20.9793 1 20.25Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
                         <path d="M12 9.25C14.2782 9.25 16.125 7.40317 16.125 5.125C16.125 2.84683 14.2782 1 12 1C9.72183 1 7.875 2.84683 7.875 5.125C7.875 7.40317 9.72183 9.25 12 9.25Z" stroke="white" stroke-width="2"/></svg>
@@ -35,15 +34,6 @@
                     <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8.01063H4.70615C4.8622 8.00884 5.01497 7.96558 5.14879 7.88528C5.28261 7.80499 5.39267 7.69055 5.46769 7.55371L8.51385 1.4614C8.58892 1.30972 8.70861 1.18464 8.85684 1.10296C9.00507 1.02128 9.17475 0.986915 9.34308 1.00448C9.51074 1.01581 9.67076 1.07886 9.80109 1.18494C9.93142 1.29102 10.0256 1.43491 10.0708 1.59678L13.8446 14.1537C13.8941 14.324 13.9959 14.4745 14.1356 14.5838C14.2753 14.6931 14.4458 14.7558 14.6231 14.7629C14.7892 14.7574 14.95 14.7031 15.0854 14.6068C15.2208 14.5105 15.3249 14.3765 15.3846 14.2214L17.7031 8.55217C17.7669 8.39314 17.8766 8.25671 18.0183 8.16027C18.1599 8.06383 18.3271 8.01174 18.4985 8.01063H23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </i> Estatísticas da playlist
             </li>
-            <li>
-                <i class="icon">
-                    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8.01063H4.70615C4.8622 8.00884 5.01497 7.96558 5.14879 7.88528C5.28261 7.80499 5.39267 7.69055 5.46769 7.55371L8.51385 1.4614C8.58892 1.30972 8.70861 1.18464 8.85684 1.10296C9.00507 1.02128 9.17475 0.986915 9.34308 1.00448C9.51074 1.01581 9.67076 1.07886 9.80109 1.18494C9.93142 1.29102 10.0256 1.43491 10.0708 1.59678L13.8446 14.1537C13.8941 14.324 13.9959 14.4745 14.1356 14.5838C14.2753 14.6931 14.4458 14.7558 14.6231 14.7629C14.7892 14.7574 14.95 14.7031 15.0854 14.6068C15.2208 14.5105 15.3249 14.3765 15.3846 14.2214L17.7031 8.55217C17.7669 8.39314 17.8766 8.25671 18.0183 8.16027C18.1599 8.06383 18.3271 8.01174 18.4985 8.01063H23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </i>
-                <form th:action="@{/searchResults}" method="get">
-                    <input type="text" name="query" placeholder="Search for music">
-                    <button type="submit">Search</button>
-                </form>
-            </li>
         </ul>
     </nav>
     <main class="pagina-perfil">
@@ -56,7 +46,7 @@
             <h1>Perfil</h1>
             <div class="card-perfil">
                 <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
-                     th:with="imageUrl=${userInfo['images'][0]['url']}">
+                     th:with="imageUrl=${userInfo['images'][1]['url']}">
                     <img th:src="${imageUrl}" class="foto-perfil" alt="Foto de perfil" />
                 </div>
 
@@ -71,7 +61,7 @@
                         Seguindo
                     </div>
                     <div class="item-status">
-                        <!-- <span th:text="${userInfo['playlists']['total']}">0</span> -->
+                        <span th:int="${playlistsInfo['total']}">0</span>
                         Playlists
                     </div>
                 </div>
@@ -87,9 +77,19 @@
                         <span th:text="${userInfo['country']}">Country</span>
                     </div>
                 </div>
+            </div>
+
+            <h2 class="titulo-2">Playlists da sua biblioteca</h2>
+            <div class="card-playlists">
+                <div th:each="playlist, iterStat : ${playlistsInfo['items']}" th:if="${iterStat.index < 6}">
+                    <p class="nome-playlist"> <span th:text="${playlist['name']}">Playlist Name</span></p>
+                    <div th:if="${playlist['largest_image_url'] != null}">
+                        <img th:src="${playlist['largest_image_url']}" alt="Playlist Image" width="285" height="285">
+                    </div>
                 </div>
-            </section>
-        </main>
-    </div>
-    </body>
-    </html>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -81,7 +81,7 @@ public class AuthController {
 
             try {
                 String responseBodyJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseBody);
-                logger.info("Response Body JSON: {}", responseBodyJson);
+                logger.info("Response Body JSON: SUCESS", responseBodyJson);
             } catch (Exception e) {
                 logger.error("Failed to convert response body to JSON", e);
             }
@@ -94,13 +94,20 @@ public class AuthController {
             HttpEntity<String> userInfoRequest = new HttpEntity<>(userInfoHeaders);
             ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, userInfoRequest, Map.class);
 
+            // Retrieve user's playlists
+            String playlistsUrl = "https://api.spotify.com/v1/me/playlists";
+            HttpHeaders playlistsHeaders = new HttpHeaders();
+            playlistsHeaders.set("Authorization", "Bearer " + accessToken);
+            HttpEntity<String> playlistsRequest = new HttpEntity<>(playlistsHeaders);
+            ResponseEntity<Map> playlistsResponse = restTemplate.exchange(playlistsUrl, HttpMethod.GET, playlistsRequest, Map.class);
+
+
             if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> userInfo = userInfoResponse.getBody();
                 model.addAttribute("userInfo", userInfo);
 
                 try {
                     String userInfoJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
-                    logger.info("User Info JSON: {}", userInfoJson);
 
                     // Salvar informações do usuário no banco de dados
                     User user = new User();
@@ -122,7 +129,28 @@ public class AuthController {
                     logger.error("Failed to convert user info to JSON", e);
                 }
             }
-        } else {
+            if (playlistsResponse.getStatusCode() == HttpStatus.OK) {
+                Map<String, Object> playlistsInfo = playlistsResponse.getBody();
+                model.addAttribute("playlistsInfo", playlistsInfo);
+
+                // Processar cada playlist para obter a maior imagem
+                List<Map<String, Object>> playlists = (List<Map<String, Object>>) playlistsInfo.get("items");
+                for (Map<String, Object> playlist : playlists) {
+                    List<Map<String, Object>> images = (List<Map<String, Object>>) playlist.get("images");
+                    if (images != null && !images.isEmpty()) {
+                        // Ordenar as imagens pela largura (width) em ordem decrescente e pegar a maior
+                        images.sort((img1, img2) -> {
+                            Integer width1 = img1.get("width") != null ? (Integer) img1.get("width") : 0;
+                            Integer width2 = img2.get("width") != null ? (Integer) img2.get("width") : 0;
+                            return width2.compareTo(width1);
+                        });
+                        playlist.put("largest_image_url", images.get(0).get("url"));
+                    } else {
+                        playlist.put("largest_image_url", null);
+                    }
+                }
+            }
+            } else {
             logger.error("Failed to retrieve access token: {}", response.getBody());
         }
 
