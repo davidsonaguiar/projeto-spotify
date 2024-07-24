@@ -3,36 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report View - TuneFy</title>
+    <title>Relatório - TuneFy</title>
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/results.css">
 </head>
 <body>
 <div class="container">
-    <h1>Report</h1>
+    <h1 th:text="${reportType}">Report</h1>
+
     <div th:if="${reportType == 'topTracks'}">
-        <h2>Top Tracks</h2>
-        <div th:each="track : ${reportData['items']}" class="track">
+        <div th:each="track : ${reportData['items']}">
             <p>ID: <span th:text="${track['id']}">Track ID</span></p>
             <p>Name: <span th:text="${track['name']}">Track Name</span></p>
-            <p>Artist: <span th:each="artist : ${track['artists']}" th:text="${artist['name']}">Artist Name</span></p>
+            <p>Artist: <span th:text="${track['artists'][0]['name']}">Artist Name</span></p>
+            <p>Album: <span th:text="${track['album']['name']}">Album Name</span></p>
             <div th:if="${track['album']['images'] != null and !#lists.isEmpty(track['album']['images'])}">
                 <img th:src="${track['album']['images'][0]['url']}" alt="Track Image" width="100" height="100">
             </div>
         </div>
     </div>
+
     <div th:if="${reportType == 'topArtists'}">
-        <h2>Top Artists</h2>
-        <div th:each="artist : ${reportData['items']}" class="artist">
+        <div th:each="artist : ${reportData['items']}">
             <p>ID: <span th:text="${artist['id']}">Artist ID</span></p>
             <p>Name: <span th:text="${artist['name']}">Artist Name</span></p>
+            <p>Genres: <span th:text="${artist['genres']}">Genres</span></p>
+            <p>Followers: <span th:text="${artist['followers']['total']}">Followers</span></p>
             <div th:if="${artist['images'] != null and !#lists.isEmpty(artist['images'])}">
                 <img th:src="${artist['images'][0]['url']}" alt="Artist Image" width="100" height="100">
             </div>
         </div>
     </div>
+
     <div class="button-container">
-        <a href="/home" class="btn-home">Back to Home</a>
+        <a href="/home" class="btn-home">Voltar para sessão</a>
     </div>
 </div>
 </body>
