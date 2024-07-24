@@ -15,7 +15,6 @@
         </div>
         <ul>
             <li>
-                <!-- <img src="/resources/icons/icon-perfil.svg" alt="icone do perfil do usuario"> TENTATIVA -->
                 <i class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 20.25C1 18.7913 1.57946 17.3924 2.61091 16.3609C3.64236 15.3295 5.04131 14.75 6.5 14.75H17.5C18.9587 14.75 20.3576 15.3295 21.3891 16.3609C22.4205 17.3924 23 18.7913 23 20.25C23 20.9793 22.7103 21.6788 22.1945 22.1945C21.6788 22.7103 20.9793 23 20.25 23H3.75C3.02065 23 2.32118 22.7103 1.80546 22.1945C1.28973 21.6788 1 20.9793 1 20.25Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
                         <path d="M12 9.25C14.2782 9.25 16.125 7.40317 16.125 5.125C16.125 2.84683 14.2782 1 12 1C9.72183 1 7.875 2.84683 7.875 5.125C7.875 7.40317 9.72183 9.25 12 9.25Z" stroke="white" stroke-width="2"/></svg>
@@ -73,7 +72,7 @@
             <h1>Perfil</h1>
             <div class="card-perfil">
                 <div th:if="${userInfo != null and userInfo['images'] != null and userInfo['images'].size() > 0}"
-                     th:with="imageUrl=${userInfo['images'][0]['url']}">
+                     th:with="imageUrl=${userInfo['images'][1]['url']}">
                     <img th:src="${imageUrl}" class="foto-perfil" alt="Foto de perfil" />
                 </div>
 
@@ -88,7 +87,7 @@
                         Seguindo
                     </div>
                     <div class="item-status">
-                        <!-- <span th:text="${userInfo['playlists']['total']}">0</span> -->
+                        <span th:int="${playlistsInfo['total']}">0</span>
                         Playlists
                     </div>
                 </div>
@@ -102,6 +101,15 @@
                     <div class="pais">
                         <img src="/images/brasil.png" class="icon-pais">
                         <span th:text="${userInfo['country']}">Country</span>
+                    </div>
+                </div>
+            </div>
+            <h2 class="titulo-2">Playlists da sua biblioteca</h2>
+            <div class="card-playlists">
+                <div th:each="playlist, iterStat : ${playlistsInfo['items']}" th:if="${iterStat.index < 6}">
+                    <p class="nome-playlist"> <span th:text="${playlist['name']}">Playlist Name</span></p>
+                    <div th:if="${playlist['largest_image_url'] != null}">
+                        <img th:src="${playlist['largest_image_url']}" alt="Playlist Image" width="285" height="285">
                     </div>
                 </div>
             </div>
