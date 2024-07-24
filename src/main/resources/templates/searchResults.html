@@ -1,68 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results - TuneFy</title>
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
-    <style>
-        body {
-            font-family: 'Reem Kufi Ink', sans-serif;
-            background-color: #181818;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            padding: 20px;
-        }
-        .playlist {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            background-color: #282828;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .playlist img {
-            width: 64px;
-            height: 64px;
-            margin-right: 20px;
-            border-radius: 5px;
-        }
-        .playlist-details {
-            flex-grow: 1;
-        }
-        .playlist-details h2 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-        .playlist-details p {
-            margin: 5px 0 0 0;
-            font-size: 0.9em;
-            color: #b3b3b3;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/results.css">
 </head>
 <body>
 <div class="container">
     <h1>Search Results</h1>
-    <div th:if="${results != null}">
-        <div th:each="playlist : ${results['playlists']['items']}">
-            <div class="playlist">
-                <img th:src="${playlist['images'][0]['url']}" alt="Playlist Image">
-                <div class="playlist-details">
-                    <h2 th:text="${playlist['name']}">Playlist Name</h2>
-                    <p th:text="'Owner: ' + ${playlist['owner']['display_name']}">Owner Name</p>
-                    <p th:text="${playlist['description']}">Playlist Description</p>
-                    <p th:text="'Tracks: ' + ${playlist['tracks']['total']}">Number of Tracks</p>
-                </div>
+    <div th:if="${searchResults != null}">
+        <h2>Tracks</h2>
+        <div th:each="track, iterStat : ${searchResults['tracks']['items']}" th:if="${iterStat.index < 5}">
+            <p>ID: <span th:text="${track['id']}">Track ID</span></p>
+            <p>Name: <span th:text="${track['name']}">Track Name</span></p>
+            <div th:if="${track['album']['images'] != null and !#lists.isEmpty(track['album']['images'])}">
+                <img th:src="${track['album']['images'][0]['url']}" alt="Track Image" width="100" height="100">
+            </div>
+        </div>
+        <h2>Artists</h2>
+        <div th:each="artist, iterStat : ${searchResults['artists']['items']}" th:if="${iterStat.index < 5}">
+            <p>ID: <span th:text="${artist['id']}">Artist ID</span></p>
+            <p>Name: <span th:text="${artist['name']}">Artist Name</span></p>
+            <div th:if="${artist['images'] != null and !#lists.isEmpty(artist['images'])}">
+                <img th:src="${artist['images'][0]['url']}" alt="Artist Image" width="100" height="100">
+            </div>
+        </div>
+        <h2>Albums</h2>
+        <div th:each="album, iterStat : ${searchResults['albums']['items']}" th:if="${iterStat.index < 5}">
+            <p>ID: <span th:text="${album['id']}">Album ID</span></p>
+            <p>Name: <span th:text="${album['name']}">Album Name</span></p>
+            <div th:if="${album['images'] != null and !#lists.isEmpty(album['images'])}">
+                <img th:src="${album['images'][0]['url']}" alt="Album Image" width="100" height="100">
             </div>
         </div>
     </div>
-    <div th:if="${results == null}">
-        <p>No results found.</p>
+    <div class="button-container">
+        <a href="/home" class="btn-home">Back to Home</a>
     </div>
 </div>
 </body>

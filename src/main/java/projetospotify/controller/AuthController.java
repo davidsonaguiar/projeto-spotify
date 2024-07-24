@@ -1,6 +1,7 @@
 package projetospotify.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import projetospotify.config.AppState;
 import projetospotify.model.User;
 import projetospotify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,9 +28,11 @@ public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final UserRepository userRepository;
+    private final AppState appState;
 
-    public AuthController(UserRepository userRepository) {
+    public AuthController(UserRepository userRepository, AppState appState) {
         this.userRepository = userRepository;
+        this.appState = appState;
     }
 
     @Value("${spring.security.oauth2.client.registration.spotify.client-id}")
@@ -74,6 +77,8 @@ public class AuthController {
             String accessToken = (String) responseBody.get("access_token");
             String refreshToken = (String) responseBody.get("refresh_token");
 
+            appState.setAccessToken(accessToken);
+
             try {
                 String responseBodyJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseBody);
                 logger.info("Response Body JSON: {}", responseBodyJson);
@@ -104,7 +109,6 @@ public class AuthController {
                     user.setEmail((String) userInfo.get("email"));
                     user.setCountry((String) userInfo.get("country"));
                     user.setFollowers((int) ((Map<String, Object>) userInfo.get("followers")).get("total"));
-                    user.setAccessToken(accessToken);
 
                     // Verifique se a lista de imagens não está vazia antes de tentar acessar a URL da imagem
                     List<Map<String, Object>> images = (List<Map<String, Object>>) userInfo.get("images");
