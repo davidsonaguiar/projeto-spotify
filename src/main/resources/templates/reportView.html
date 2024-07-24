@@ -12,7 +12,6 @@
     <h1 th:text="${reportType}">Report</h1>
 
     <div th:if="${reportType == 'topTracks'}">
-        <h2>Top Tracks</h2>
         <div th:each="track : ${reportData['items']}">
             <p>ID: <span th:text="${track['id']}">Track ID</span></p>
             <p>Name: <span th:text="${track['name']}">Track Name</span></p>
@@ -25,7 +24,6 @@
     </div>
 
     <div th:if="${reportType == 'topArtists'}">
-        <h2>Top Artists</h2>
         <div th:each="artist : ${reportData['items']}">
             <p>ID: <span th:text="${artist['id']}">Artist ID</span></p>
             <p>Name: <span th:text="${artist['name']}">Artist Name</span></p>
@@ -38,7 +36,7 @@
     </div>
 
     <div class="button-container">
-        <a href="/home" class="btn-home">Back to Home</a>
+        <a href="/home" class="btn-home">Voltar para sessão</a>
     </div>
 </div>
 </body>
