@@ -1,0 +1,61 @@
+/* src/main/resources/static/css/results.css */
+body {
+    margin: 0;
+    font-family: 'Reem Kufi Ink', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000320;
+    color: #fff;
+}
+
+.container {
+    width: 80%;
+    background: conic-gradient(from 164.75deg at -24.86% 41.06%, #000724 0deg, #00798F 16.16deg, #005870 173.21deg, #00546C 182.74deg, #00526B 198.65deg, #004962 221.05deg, #002540 249.92deg, #00213C 257.17deg, #001B36 265.49deg, #001733 279.88deg, #001430 294deg, #000F2C 306.14deg, #000C29 313.59deg, #000A27 326.86deg, #000925 337.38deg, #000320 354.32deg, #000724 360deg);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+p {
+    margin: 5px 0;
+}
+
+img {
+    display: block;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-home {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00c1ff;
+    color: #000320;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-home:hover {
+    background-color: #008fbf;
+}
