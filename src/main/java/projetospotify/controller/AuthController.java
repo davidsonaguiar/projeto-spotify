@@ -50,8 +50,8 @@ public class AuthController {
     }
 
     @GetMapping("/callback")
-    public String callback(@RequestParam("code") String code, @RequestParam("state") String state, Model model) {
-        logger.info("Received callback with code: {} and state: {}", code, state);
+        public String callback(@RequestParam("code") String code, @RequestParam("state") String state, Model model) {
+            logger.info("Received callback with code: {} and state: {}", code, state);
 
         // Exchange the authorization code for an access token
         RestTemplate restTemplate = new RestTemplate();
@@ -81,7 +81,7 @@ public class AuthController {
 
             try {
                 String responseBodyJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(responseBody);
-                logger.info("Response Body JSON: {}", responseBodyJson);
+                logger.info("Response Body JSON: SUCESS", responseBodyJson);
             } catch (Exception e) {
                 logger.error("Failed to convert response body to JSON", e);
             }
@@ -100,7 +100,6 @@ public class AuthController {
 
                 try {
                     String userInfoJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
-                    logger.info("User Info JSON: {}", userInfoJson);
 
                     // Salvar informações do usuário no banco de dados
                     User user = new User();

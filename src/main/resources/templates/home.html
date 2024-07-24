@@ -24,7 +24,9 @@
             <li>
                 <i class="icon">
                     <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.69995 8.7L10.9 10.9L15.3 6.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 16.4H1M4.3 3.2C4.3 1.99 5.29 1 6.5 1H17.5C18.0835 1 18.6431 1.23178 19.0556 1.64436C19.4682 2.05695 19.7 2.61652 19.7 3.2V16.4H4.3V3.2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </i> Avaliando Músicas
+                </i>
+                <a href="#" onclick="openCreatePlaylistModal()">Criar Playlist</a>
+
             </li>
             <li>
                 <i class="icon">
@@ -88,8 +90,42 @@
                     </div>
                 </div>
                 </div>
+                <div th:if="${message}" class="message">
+                    <p th:text="${message}"></p>
+                </div>
+                <div th:if="${errorDetails}" class="error">
+                    <p th:text="${errorDetails}"></p>
+                </div>
             </section>
         </main>
     </div>
+
+    <div id="createPlaylistModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCreatePlaylistModal()">&times;</span>
+            <form id="createPlaylistForm" method="post" action="/createPlaylist">
+                <label for="name">Nome da Playlist:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="description">Descrição:</label>
+                <input type="text" id="description" name="description">
+
+                <label for="public">Pública:</label>
+                <input type="checkbox" id="public" name="public">
+
+                <button type="submit">Criar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openCreatePlaylistModal() {
+            document.getElementById('createPlaylistModal').style.display = 'block';
+        }
+
+        function closeCreatePlaylistModal() {
+            document.getElementById('createPlaylistModal').style.display = 'none';
+        }
+    </script>
     </body>
     </html>
