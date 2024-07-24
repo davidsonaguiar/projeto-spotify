@@ -12,26 +12,36 @@
     <h1 th:text="${reportType}">Report</h1>
 
     <div th:if="${reportType == 'topTracks'}">
-        <div th:each="track : ${reportData['items']}">
-            <p>ID: <span th:text="${track['id']}">Track ID</span></p>
-            <p>Name: <span th:text="${track['name']}">Track Name</span></p>
-            <p>Artist: <span th:text="${track['artists'][0]['name']}">Artist Name</span></p>
-            <p>Album: <span th:text="${track['album']['name']}">Album Name</span></p>
-            <div th:if="${track['album']['images'] != null and !#lists.isEmpty(track['album']['images'])}">
-                <img th:src="${track['album']['images'][0]['url']}" alt="Track Image" width="100" height="100">
+        <div th:if="${reportData['items'] != null and !#lists.isEmpty(reportData['items'])}">
+            <div th:each="track : ${reportData['items']}">
+                <p>ID: <span th:text="${track['id'] != null ? track['id'] : 'N/A'}">Track ID</span></p>
+                <p>Name: <span th:text="${track['name'] != null ? track['name'] : 'N/A'}">Track Name</span></p>
+                <p>Artist: <span th:text="${track['artists'] != null and !#lists.isEmpty(track['artists']) and track['artists'][0]['name'] != null ? track['artists'][0]['name'] : 'N/A'}">Artist Name</span></p>
+                <p>Album: <span th:text="${track['album'] != null and track['album']['name'] != null ? track['album']['name'] : 'N/A'}">Album Name</span></p>
+                <div th:if="${track['album'] != null and track['album']['images'] != null and !#lists.isEmpty(track['album']['images'])}">
+                    <img th:src="${track['album']['images'][0]['url']}" alt="Track Image" width="100" height="100">
+                </div>
             </div>
+        </div>
+        <div th:unless="${reportData['items'] != null and !#lists.isEmpty(reportData['items'])}">
+            <p>No tracks available.</p>
         </div>
     </div>
 
     <div th:if="${reportType == 'topArtists'}">
-        <div th:each="artist : ${reportData['items']}">
-            <p>ID: <span th:text="${artist['id']}">Artist ID</span></p>
-            <p>Name: <span th:text="${artist['name']}">Artist Name</span></p>
-            <p>Genres: <span th:text="${artist['genres']}">Genres</span></p>
-            <p>Followers: <span th:text="${artist['followers']['total']}">Followers</span></p>
-            <div th:if="${artist['images'] != null and !#lists.isEmpty(artist['images'])}">
-                <img th:src="${artist['images'][0]['url']}" alt="Artist Image" width="100" height="100">
+        <div th:if="${reportData['items'] != null and !#lists.isEmpty(reportData['items'])}">
+            <div th:each="artist : ${reportData['items']}">
+                <p>ID: <span th:text="${artist['id'] != null ? artist['id'] : 'N/A'}">Artist ID</span></p>
+                <p>Name: <span th:text="${artist['name'] != null ? artist['name'] : 'N/A'}">Artist Name</span></p>
+                <p>Genres: <span th:text="${artist['genres'] != null ? artist['genres'] : 'N/A'}">Genres</span></p>
+                <p>Followers: <span th:text="${artist['followers'] != null and artist['followers']['total'] != null ? artist['followers']['total'] : 'N/A'}">Followers</span></p>
+                <div th:if="${artist['images'] != null and !#lists.isEmpty(artist['images'])}">
+                    <img th:src="${artist['images'][0]['url']}" alt="Artist Image" width="100" height="100">
+                </div>
             </div>
+        </div>
+        <div th:unless="${reportData['items'] != null and !#lists.isEmpty(reportData['items'])}">
+            <p>No artists available.</p>
         </div>
     </div>
 
