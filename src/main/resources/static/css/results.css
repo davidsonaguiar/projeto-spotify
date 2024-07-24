@@ -1,0 +1,82 @@
+/* Reset some default styles */
+body, h1, h2, p, a {
+    margin: 0;
+    padding: 0;
+    font-family: 'Reem Kufi Ink', sans-serif;
+}
+
+body {
+    background-color: #000320;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.container {
+    background-color: #13152C;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 28px;
+    margin: 20px 0;
+}
+
+p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+img {
+    border-radius: 10px;
+    margin: 10px 0;
+    display: block;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-home {
+    background-color: #00c1ff;
+    color: #000320;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn-home:hover {
+    background-color: #009ecc;
+}
+
+.error {
+    color: red;
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+.track, .artist {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #1a1a40;
+    border-radius: 5px;
+}
