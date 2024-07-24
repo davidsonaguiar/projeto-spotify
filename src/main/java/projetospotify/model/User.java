@@ -19,4 +19,16 @@ public class User {
     private String country;
     private int followers;
     private String profileImageUrl;
+
+public User() {
+}
+
+public User(String spotifyId, String displayName, String email, String country, int followers, String profileImageUrl) {
+    this.spotifyId = spotifyId;
+    this.displayName = displayName;
+    this.email = email;
+    this.country = country;
+    this.followers = followers;
+    this.profileImageUrl = profileImageUrl;
+    }
 }

@@ -2,6 +2,8 @@ package projetospotify.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import projetospotify.config.AppState;
+import projetospotify.report.TopTracksReport;
+import projetospotify.report.TopArtistsReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -72,6 +73,15 @@ public class ReportController {
 
             model.addAttribute("reportType", reportType);
             model.addAttribute("reportData", responseBody);
+
+            if ("topTracks".equals(reportType)) {
+                TopTracksReport topTracksReport = new TopTracksReport(responseBody);
+                topTracksReport.generateReport();
+            } else if ("topArtists".equals(reportType)) {
+                TopArtistsReport topArtistsReport = new TopArtistsReport(responseBody);
+                topArtistsReport.generateReport();
+            }
+
             return "reportView";
         } else {
             logger.error("Failed to generate report: HTTP {}", response.getStatusCode());
