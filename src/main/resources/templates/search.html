@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - TuneFy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/search.css">
+</head>
+<body>
+<div class="container">
+    <form action="/search" method="get">
+        <input type="text" name="query" placeholder="Search for music...">
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="results" th:if="${tracks != null}">
+        <h2>Search Results:</h2>
+        <ul>
+            <li th:each="item : ${tracks.items}">
+                <span th:text="${item.name}">Track Name</span> by <span th:text="${item.artists[0].name}">Artist Name</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="error" th:if="${error != null}">
+        <p th:text="${error}"></p>
+    </div>
+</div>
+</body>
+</html>

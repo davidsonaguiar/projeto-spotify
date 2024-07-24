@@ -19,5 +19,6 @@ public class User {
     private String country;
     private int followers;
     private String profileImageUrl;
-
+    private String accessToken;
+    private String refreshToken;
 }

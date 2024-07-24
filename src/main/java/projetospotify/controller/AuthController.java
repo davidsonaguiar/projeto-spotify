@@ -104,6 +104,7 @@ public class AuthController {
                     user.setEmail((String) userInfo.get("email"));
                     user.setCountry((String) userInfo.get("country"));
                     user.setFollowers((int) ((Map<String, Object>) userInfo.get("followers")).get("total"));
+                    user.setAccessToken(accessToken);
 
                     // Verifique se a lista de imagens não está vazia antes de tentar acessar a URL da imagem
                     List<Map<String, Object>> images = (List<Map<String, Object>>) userInfo.get("images");

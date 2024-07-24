@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - TuneFy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            font-family: 'Reem Kufi Ink', sans-serif;
+            background-color: #181818;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .playlist {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #282828;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .playlist img {
+            width: 64px;
+            height: 64px;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+        .playlist-details {
+            flex-grow: 1;
+        }
+        .playlist-details h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .playlist-details p {
+            margin: 5px 0 0 0;
+            font-size: 0.9em;
+            color: #b3b3b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Search Results</h1>
+    <div th:if="${results != null}">
+        <div th:each="playlist : ${results['playlists']['items']}">
+            <div class="playlist">
+                <img th:src="${playlist['images'][0]['url']}" alt="Playlist Image">
+                <div class="playlist-details">
+                    <h2 th:text="${playlist['name']}">Playlist Name</h2>
+                    <p th:text="'Owner: ' + ${playlist['owner']['display_name']}">Owner Name</p>
+                    <p th:text="${playlist['description']}">Playlist Description</p>
+                    <p th:text="'Tracks: ' + ${playlist['tracks']['total']}">Number of Tracks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${results == null}">
+        <p>No results found.</p>
+    </div>
+</div>
+</body>
+</html>
