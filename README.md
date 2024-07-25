@@ -32,3 +32,12 @@
   ainda, é possível realizar pesquisas por uma música desejada dentro da aplicação para conseguir o nome da música e o ID da música para fazer a inclusão dela no Spotify! </p>
 </p>
 
+<h3>Como Rodar O Projeto em Dev</h3>
+<h4>Requisitos:</h4>
+<lu>
+  <li>Necessário PostgreSQL instalado na máquina em versão LTS</li>
+  <li>Necessário JDK 22+ de preferência</li>
+  <li>Necessário um ID e um SECRET disponibilizados para desenvolvedores pelo SPOTIFY</li>
+  <li>Necessário instalação das dependências</li>
+  <li>Necessário configuração das variáveis de ambiente de execução</li>
+</lu>
